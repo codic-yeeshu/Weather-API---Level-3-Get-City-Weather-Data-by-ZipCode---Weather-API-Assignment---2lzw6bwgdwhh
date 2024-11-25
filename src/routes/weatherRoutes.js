@@ -40,7 +40,7 @@ router.get("/city/zipcode/:code", async (req, res) => {
   const { code } = req.params;
 
   try {
-    const cityData = weatherController.getWeatherDataByZipCode(code);
+    const cityData = await weatherController.getWeatherDataByZipCode(code);
     if (!cityData.length)
       return res.status(404).json({
         status: "error",
