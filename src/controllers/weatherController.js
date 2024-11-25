@@ -1,8 +1,8 @@
-const fs = require('fs');
+const fs = require("fs");
 
 async function getDataFromDatabase() {
   return new Promise((resolve, reject) => {
-    fs.readFile('src/data/data.json', (err, data) => {
+    fs.readFile("src/data/data.json", (err, data) => {
       if (err) {
         reject(err);
       } else {
@@ -15,7 +15,7 @@ async function getDataFromDatabase() {
 async function saveDataToDatabase(data) {
   return new Promise((resolve, reject) => {
     const jsonData = JSON.stringify(data);
-    fs.writeFile('src/data/data.json', jsonData, (err) => {
+    fs.writeFile("src/data/data.json", jsonData, (err) => {
       if (err) {
         reject(err);
       } else {
@@ -24,7 +24,6 @@ async function saveDataToDatabase(data) {
     });
   });
 }
-
 
 /*
   Instructions for students:
@@ -46,14 +45,16 @@ async function saveDataToDatabase(data) {
     - Return the filtered weather data or null based on the search result.
 */
 
-
 // Level 3: Get City Weather Data by ZipCode
 async function getWeatherDataByZipCode(zipCode) {
-   // TODO: Implement this function
+  // TODO: Implement this function
+  const response = await getDataFromDatabase();
+  const data = await response.json();
+
+  const cityData = data.filter((city) => city.zipCode === zipCode);
+  return cityData;
 }
 
-
-
 module.exports = {
-  getWeatherDataByZipCode
+  getWeatherDataByZipCode,
 };

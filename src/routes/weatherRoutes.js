@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const weatherController = require('../controllers/weatherController');
+const weatherController = require("../controllers/weatherController");
 
 /*
   Instructions for students:
@@ -35,8 +35,28 @@ const weatherController = require('../controllers/weatherController');
 */
 
 // Level 3: Get City Weather Data by ZipCode
-router.get('/city/zipcode/:code', async (req, res) => {
-   // TODO: Implement this function
+router.get("/city/zipcode/:code", async (req, res) => {
+  // TODO: Implement this function
+  const { code } = req.params;
+
+  try {
+    const cityData = weatherController.getWeatherDataByZipCode(code);
+    if (!cityData.length)
+      return res.status(404).json({
+        status: "error",
+        message: "Failed to retrieve weather data",
+        error: "City not found",
+      });
+
+    return res.status(200).json({
+      status: "success",
+      message: "Weather data retrieved",
+      data: cityData[0],
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "internal server error" });
+  }
 });
 
 module.exports = router;
